@@ -34,6 +34,7 @@ namespace Microsoft.Framework.DependencyInjection
             services.TryAdd(describer.Transient<IHttpContextFactory, HttpContextFactory>());
 
             services.TryAdd(describer.Instance<IApplicationLifetime>(new ApplicationLifetime()));
+            services.TryAdd(describer.Instance<IHostingKeepAlive>(new ConsoleHostingKeepAlive()));
 
             services.AddTypeActivator(configuration);
             // TODO: Do we expect this to be provide by the runtime eventually?
