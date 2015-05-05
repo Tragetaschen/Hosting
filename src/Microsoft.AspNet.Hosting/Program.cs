@@ -34,34 +34,21 @@ namespace Microsoft.AspNet.Hosting
             config.AddEnvironmentVariables();
             config.AddCommandLine(args);
 
-            var host = new WebHostBuilder(_serviceProvider, config).Build();
-            var serverShutdown = host.Start();
-            var loggerFactory = host.ApplicationServices.GetRequiredService<ILoggerFactory>();
-            var appShutdownService = host.ApplicationServices.GetRequiredService<IApplicationShutdown>();
-            var shutdownHandle = new ManualResetEvent(false);
-
-            appShutdownService.ShutdownRequested.Register(() =>
+            var host = new WebHostBuilder(_serviceProvider, config)
+                .UseServices(x => x.AddSingleton<IShutdownHandler, ConsoleEnterShutdownHandler>())
+                .Build();
+            using (host.Start())
             {
-                try
-                {
-                    serverShutdown.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    var logger = loggerFactory.CreateLogger<Program>();
-                    logger.LogError("Dispose threw an exception.", ex);
-                }
-                shutdownHandle.Set();
-            });
+                var appShutdownService = host.ApplicationServices.GetRequiredService<IApplicationShutdown>();
+                var shutdownHandlers = host.ApplicationServices.GetRequiredServices<IShutdownHandler>();
 
-            var ignored = Task.Run(() =>
-            {
-                Console.WriteLine("Started");
-                Console.ReadLine();
-                appShutdownService.RequestShutdown();
-            });
+                foreach (var shutdownHandler in shutdownHandlers)
+                {
+                    shutdownHandler.Setup(appShutdownService);
+                }
 
-            shutdownHandle.WaitOne();
+                appShutdownService.ShutdownRequested.WaitHandle.WaitOne();
+            }
         }
     }
 }
