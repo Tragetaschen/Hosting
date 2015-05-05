@@ -1,6 +1,6 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Threading.Tasks;
+using Microsoft.Framework.Runtime;
 
 namespace Microsoft.AspNet.Hosting
 {
@@ -10,9 +10,9 @@ namespace Microsoft.AspNet.Hosting
     public interface IHostingKeepAlive
     {
         /// <summary>
-        /// Called when the application should be kept running.
-        /// When this returns, the application shuts down.
+        /// Setup a way to signal application shutdown
         /// </summary>
-        Task SetupAsync();
+        /// <param name="applicationShutdown">The application shutdown</param>
+        void Setup(IApplicationShutdown applicationShutdown);
     }
 }
