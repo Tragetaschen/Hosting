@@ -19,6 +19,12 @@ namespace Microsoft.AspNet.Hosting
         }
 
         /// <summary>
+        /// Triggered when the application host has fully started and is about to wait
+        /// for a graceful shutdown.
+        /// </summary>
+        public event EventHandler ApplicationStarted;
+
+        /// <summary>
         /// Triggered when the application host is performing a graceful shutdown.
         /// Request may still be in flight. Shutdown will block until this event completes.
         /// </summary>
@@ -37,6 +43,14 @@ namespace Microsoft.AspNet.Hosting
         public CancellationToken ApplicationStopped
         {
             get { return _stoppedSource.Token; }
+        }
+
+        /// <summary>
+        /// Signals the ApplicationStarted event and blocks until it completes.
+        /// </summary>
+        public void NotifyStarted()
+        {
+            ApplicationStarted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

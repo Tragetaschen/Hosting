@@ -57,6 +57,8 @@ namespace Microsoft.AspNet.Hosting
                     return context.ApplicationDelegate(httpContext);
                 });
 
+            _appLifetime.NotifyStarted();
+
             return new Disposable(() =>
             {
                 _appLifetime.NotifyStopping();
