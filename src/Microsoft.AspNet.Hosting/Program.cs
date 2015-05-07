@@ -45,11 +45,6 @@ namespace Microsoft.AspNet.Hosting
             using (engine.Start(context))
             {
                 var appShutdownService = context.ApplicationServices.GetRequiredService<IApplicationShutdown>();
-                var hostingKeepAlives = context.ApplicationServices.GetRequiredServices<IHostingKeepAlive>();
-
-                foreach (var hostingKeepAlive in hostingKeepAlives)
-                    hostingKeepAlive.Setup(appShutdownService);
-
                 appShutdownService.ShutdownRequested.WaitHandle.WaitOne();
             }
         }

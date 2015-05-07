@@ -180,7 +180,6 @@ namespace Microsoft.AspNet.Hosting
             services.Add(context.Services);
 
             // Jamming in app lifetime and hosting env since these must not be replaceable
-            services.AddSingleton<IHostingKeepAlive, ConsoleHostingKeepAlive>();
             services.AddInstance<IApplicationLifetime>(_appLifetime);
             services.AddInstance<IHostingEnvironment>(_hostingEnvironment);
 
