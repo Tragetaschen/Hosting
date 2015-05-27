@@ -3,7 +3,6 @@
 
 using System;
 using System.IO;
-using Microsoft.Framework.Internal;
 
 namespace Microsoft.AspNet.Hosting
 {
@@ -16,7 +15,7 @@ namespace Microsoft.AspNet.Hosting
         /// <param name="environmentName">Environment name to validate against.</param>
         /// <returns>True if the specified name is same as the current environment.</returns>
         public static bool IsEnvironment(
-            [NotNull]this IHostingEnvironment hostingEnvironment,
+            this IHostingEnvironment hostingEnvironment,
             string environmentName)
         {
             return string.Equals(
@@ -32,7 +31,7 @@ namespace Microsoft.AspNet.Hosting
         /// <param name="virtualPath">Path relative to the root.</param>
         /// <returns>Physical path corresponding to virtual path.</returns>
         public static string MapPath(
-            [NotNull]this IHostingEnvironment hostingEnvironment,
+            this IHostingEnvironment hostingEnvironment,
             string virtualPath)
         {
             if (virtualPath == null)
