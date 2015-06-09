@@ -8,7 +8,7 @@
         "Microsoft.AspNet.Http.Core": "1.0.0-beta4",
         "Microsoft.AspNet.Http.Extensions": "1.0.0-beta4",
         "Microsoft.Framework.Logging": "1.0.0-beta4",
-        "Microsoft.Framework.DependencyInjection": "",
+        "Microsoft.Framework.DependencyInjection": "1.0.0-beta4",
         "Newtonsoft.Json": "6.0.6"
     },
     "frameworks": {
